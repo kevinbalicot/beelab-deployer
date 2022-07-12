@@ -5,6 +5,6 @@ module.exports = {
     make(cmd) {
         const releasePath = get('RELEASE_PATH');
 
-        return exec(`cd ${releasePath} && make ${cmd}`);
+        return exec(`make ${cmd}`, releasePath);
     },
 };

@@ -2,7 +2,7 @@ const exec = require('child_process').exec;
 const { get } = require('./../services/configuration');
 
 module.exports = {
-    exec(cmd) {
+    exec(cmd, cwd = '~') {
         return new Promise((resolve, reject) => {
             const debug = get('DEBUG', true);
             const user = get('SSH_USER');
@@ -14,7 +14,7 @@ module.exports = {
                 console.log(cmd.trim());
             }
 
-            exec(`ssh ${user}@${host}${key ? '-i ' . key : ' '}-p ${port} "${cmd}"`, (err, stdout) => {
+            exec(`ssh ${user}@${host}${key ? ' -i ' . key : ''} -A -p ${port} "${cmd}"`, { cwd }, (err, stdout) => {
                 if (!!err) {
                     return reject(err);
                 }
@@ -36,7 +36,7 @@ module.exports = {
             const key = get('SSH_KEY', null);
 
             //console.log(`coping ${file} at ${this.ip}:${path}`.yellow);
-            exec(`scp${key ? '-i ' . key : ' '}-P ${port} ${options} ${file} ${user}@${host}:${path}`, (err, stdout) => {
+            exec(`scp${key ? ' -i ' . key : ''} -A -P ${port} ${options} ${file} ${user}@${host}:${path}`, (err, stdout) => {
                 if (!!err) {
                     return reject(err);
                 }

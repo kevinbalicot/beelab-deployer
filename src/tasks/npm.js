@@ -6,6 +6,6 @@ module.exports = {
         const releasePath = get('RELEASE_PATH');
         env = env || get('NODE_ENV', 'production');
 
-        return exec(`cd ${releasePath} && NODE_ENV=${env} npm install`);
+        return exec(`NODE_ENV=${env} npm install`, releasePath);
     },
 };
