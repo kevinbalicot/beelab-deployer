@@ -2,12 +2,16 @@ const { exec } = require('./../providers/ssh');
 const { get } = require('./../services/configuration');
 
 module.exports = {
-    dockerComposeUp() {
-        return exec(`docker-compose up -d`, get('RELEASE_ORIGIN'));
+    dockerComposeUp(cwd = get('RELEASE_ORIGIN')) {
+        return exec('docker-compose up -d', cwd);
     },
 
-    dockerComposeStop() {
-        return exec(`docker-compose stop`, get('RELEASE_ORIGIN'));
+    dockerComposeStop(cwd = get('RELEASE_ORIGIN')) {
+        return exec('docker-compose stop', cwd);
+    },
+
+    dockerCompose(cmd, cwd = get('RELEASE_ORIGIN')) {
+        return exec(`docker-compose ${cmd}`, cwd);
     },
 
     dockerComposeUpAll() {
