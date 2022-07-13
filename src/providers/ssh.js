@@ -14,7 +14,7 @@ module.exports = {
                 console.log(cmd.trim());
             }
 
-            exec(`ssh ${user}@${host}${key ? ' -i ' . key : ''} -p ${port} "${cmd}"`, { cwd }, (err, stdout) => {
+            exec(`ssh ${user}@${host}${key ? ' -i ' . key : ''} -p ${port} "cd ${cwd} ; ${cmd}"`, (err, stdout) => {
                 if (!!err) {
                     return reject(err);
                 }
