@@ -2,21 +2,28 @@ const { exec } = require('./../providers/ssh');
 const { get } = require('./../services/configuration');
 
 module.exports = {
-    dockerComposeUp(cwd = get('RELEASE_ORIGIN')) {
-        return exec('docker-compose up -d', cwd);
+    dockerComposeUp(serviceName = '', cwd = get('RELEASE_PATH')) {
+        const dockerComposeBinary = get('DOCKER_COMPOSE_BIN', 'docker compose');
+
+        return exec(`${dockerComposeBinary} up --build -d ${serviceName}`, cwd);
     },
 
-    dockerComposeStop(cwd = get('RELEASE_ORIGIN')) {
-        return exec('docker-compose stop', cwd);
+    dockerComposeStop(serviceName = '', cwd = get('RELEASE_PATH')) {
+        const dockerComposeBinary = get('DOCKER_COMPOSE_BIN', 'docker compose');
+
+        return exec(`${dockerComposeBinary} stop ${serviceName}`, cwd);
     },
 
-    dockerCompose(cmd, cwd = get('RELEASE_ORIGIN')) {
-        return exec(`docker-compose ${cmd}`, cwd);
+    dockerCompose(cmd, cwd = get('RELEASE_PATH')) {
+        const dockerComposeBinary = get('DOCKER_COMPOSE_BIN', 'docker compose');
+
+        return exec(`${dockerComposeBinary} ${cmd}`, cwd);
     },
 
     dockerComposeUpAll() {
         const releaseOrigin = get('RELEASE_ORIGIN');
+        const dockerComposeBinary = get('DOCKER_COMPOSE_BIN', 'docker compose');
 
-        return exec(`docker-compose $(for file in ${releaseOrigin}/../*/docker-compose*.yaml; do echo -f "$file"; done) up -d`);
+        return exec(`${dockerComposeBinary} $(for file in ${releaseOrigin}/../*/docker-compose*.yaml; do echo -f "$file"; done) up -d`);
     },
 };
