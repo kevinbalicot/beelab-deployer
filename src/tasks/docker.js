@@ -2,6 +2,12 @@ const { exec } = require('./../providers/ssh');
 const { get } = require('./../services/configuration');
 
 module.exports = {
+    dockerComposeBuild(serviceName = '', cwd = get('RELEASE_PATH')) {
+        const dockerComposeBinary = get('DOCKER_COMPOSE_BIN', 'docker compose');
+
+        return exec(`${dockerComposeBinary} build --no-cache ${serviceName}`, cwd);
+    },
+
     dockerComposeUp(serviceName = '', cwd = get('RELEASE_PATH')) {
         const dockerComposeBinary = get('DOCKER_COMPOSE_BIN', 'docker compose');
 
