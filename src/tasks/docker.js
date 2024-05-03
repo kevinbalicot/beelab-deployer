@@ -5,13 +5,13 @@ module.exports = {
     dockerComposeBuild(serviceName = '', cwd = get('RELEASE_PATH')) {
         const dockerComposeBinary = get('DOCKER_COMPOSE_BIN', 'docker compose');
 
-        return exec(`${dockerComposeBinary} build --no-cache ${serviceName}`, cwd);
+        return exec(`${dockerComposeBinary} build --no-cache --force-rm ${serviceName}`, cwd);
     },
 
     dockerComposeUp(serviceName = '', cwd = get('RELEASE_PATH')) {
         const dockerComposeBinary = get('DOCKER_COMPOSE_BIN', 'docker compose');
 
-        return exec(`${dockerComposeBinary} up --build -d ${serviceName}`, cwd);
+        return exec(`${dockerComposeBinary} up --force-recreate -d ${serviceName}`, cwd);
     },
 
     dockerComposeStop(serviceName = '', cwd = get('RELEASE_PATH')) {
