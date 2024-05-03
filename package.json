@@ -1,6 +1,6 @@
 {
   "name": "@beelab/deployer",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Deployer tools",
   "main": "index.js",
   "scripts": {
